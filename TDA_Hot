@@ -1,0 +1,45 @@
+import pandas as pd
+import numpy as np
+import abc
+
+try:
+    import params
+except ImportError:
+    import params_default as params
+import matplotlib.colors as colors
+import matplotlib.cm as cmx
+import matplotlib.pyplot as plt
+from em_help import *
+
+from os import listdir
+
+filepaths = [f for f in listdir("./data") if f.endswith('.csv')]
+df = pd.concat(map(pd.read_csv, filepaths))
+
+class ExploreMapper:
+  
+    def __init__(self, data, Clustering, FilterFunction):
+
+        
+        self.N = params.N
+        self.p = params.p
+
+        self.data = data
+        self.indices = np.arange(len(data))
+
+        
+        self.filter_class = FilterFunction
+        self.cluster_class = Clustering
+
+        
+        self._implem_check()
+
+        self.run_mapper()
+        
+def _implem_check(self):
+
+        if not issubclass(self.cluster_class, ClusteringTDA):
+            raise TypeError('Clustering class must implement \'ClusteringTDA\' abstract class.')
+
+        if not issubclass(self.filter_class, FilterFuctionTDA):
+            raise TypeError('Filter Function class must implement \'FilterFuctionTDA\' abstract class.')
