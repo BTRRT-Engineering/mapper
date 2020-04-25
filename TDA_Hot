@@ -35,7 +35,9 @@ class ExploreMapper:
         self._implem_check()
 
         self.run_mapper()
-        
+ 
+#implement checking ---> cluster 
+ 
 def _implem_check(self):
 
         if not issubclass(self.cluster_class, ClusteringTDA):
@@ -43,3 +45,14 @@ def _implem_check(self):
 
         if not issubclass(self.filter_class, FilterFuctionTDA):
             raise TypeError('Filter Function class must implement \'FilterFuctionTDA\' abstract class.')
+            
+#Definitions for filters
+
+def _apply_filter_function(self):
+        fm = []
+        filter_obj = self.filter_class(self.data)
+
+        for i in self.indices:
+            fm.append(filter_obj.filter_func(self.data[i:i+1], self.data))
+
+        return pd.Series(fm, index=self.indices).sort_values()
